@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Posts</h1>
+   
+   <% for (const post of posts) { %>
+   <div>
+    <p><%= post.id %></p>
+    <p><%= post.username %></p>
+    <p><%= post.quote %></p>
+    <p><%= post.email %></p>
+    </div>     
+<%    } %>
+    
+<form action="/posts/new">
+    <button>New</button>
+</form>
+    
+</body>
+</html>
