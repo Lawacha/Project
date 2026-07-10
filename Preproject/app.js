@@ -4,6 +4,7 @@ const methodOverride=require('method-override')
 const mongoose=require('mongoose')
 const connectDB=require('./config/mongoose.js')
 const Posts=require('./models/posts.js')
+
 const app=express()
 
 let port=8080
@@ -36,7 +37,8 @@ app.get('/posts/new',(req,res)=>{
 app.post('/posts',async(req,res)=>{
     let post=req.body
     console.log(post)
-    let inPost=await Posts.insertOne(post)
+    let inPost=new Posts(post)
+    await inPost.save()
     res.redirect('/posts')
 })
 
