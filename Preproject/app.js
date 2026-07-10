@@ -1,5 +1,6 @@
 const express=require('express')
 const path=require('path')
+const methodOverride=require('method-override')
 const mongoose=require('mongoose')
 const connectDB=require('./config/mongoose.js')
 const Posts=require('./models/posts.js')
@@ -7,6 +8,7 @@ const app=express()
 
 let port=8080
 
+app.use(methodOverride("_method"));
 app.set('view engine','ejs')
 app.set('views',path.join(__dirname,'views'))
 app.use(express.urlencoded({extended:true}))
@@ -38,7 +40,22 @@ app.post('/posts',async(req,res)=>{
     res.redirect('/posts')
 })
 
+//update route
+app.get('/posts/:id/edit',async(req,res)=>{
+    let {id}=req.params
+    let post=await Posts.findById(id)
+    console.log(post)
+    res.render('edit.ejs',{post})
+})
 
+app.put('/posts/:id',async(req,res)=>{
+    let {id}=req.params
+    let {quote:newquote}=req.body
+    let newPost=await Posts.updateOne({_id:id},{quote:newquote})
+    console.log(newPost)
+    res.redirect('/posts')
+
+})
 
 app.listen(port,()=>{
     console.log(`listening to port: ${port}`)

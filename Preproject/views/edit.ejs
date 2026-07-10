@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Edit</h1>
+     <form action="/posts/<%=post.id%>?_method=PUT" method="post" >
+        <p>Username</p>
+        <input type="text" name="username " value="<%= post.username %>" >
+        <p>Quote</p>
+        <textarea name="quote" >
+            <%=post.quote%>
+            </textarea>
+        <p>email</p>
+        <input type="email" name="email" value="<%= post.email %>" ><br><br>
+        <button>Add</button>
+    </form>
+</body>
+</html>
