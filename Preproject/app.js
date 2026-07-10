@@ -51,10 +51,17 @@ app.get('/posts/:id/edit',async(req,res)=>{
 app.put('/posts/:id',async(req,res)=>{
     let {id}=req.params
     let {quote:newquote}=req.body
-    let newPost=await Posts.updateOne({_id:id},{quote:newquote})
+    let newPost=await Posts.findByIdAndUpdate( id, { quote: newquote }, { new: true });
     console.log(newPost)
     res.redirect('/posts')
 
+})
+
+//destroy route
+app.delete('/posts/:id',async(req,res)=>{
+    let {id}=req.params
+    let post=await Posts.findByIdAndDelete(id)
+    res.redirect('/posts')
 })
 
 app.listen(port,()=>{

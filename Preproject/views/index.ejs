@@ -30,6 +30,9 @@
             <form action="/posts/<%= post.id%>/edit">
                 <button>Edit</button>
             </form>
+            <form action="/posts/<%= post.id%>?_method=DELETE" method="post">
+                <button>Delete</button>
+            </form>
         </div>
         <% } %>
 
