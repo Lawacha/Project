@@ -66,6 +66,11 @@ app.delete('/posts/:id',async(req,res)=>{
     res.redirect('/posts')
 })
 
+//error handling
+app.use((err,req,res,next)=>{
+    console.log(err.message)
+})
+
 app.listen(port,()=>{
     console.log(`listening to port: ${port}`)
 })
