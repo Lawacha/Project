@@ -11,11 +11,17 @@
         <div>
             <p><%= list.title %></p>
             <p><%= list.description %></p>
-           <img src="<%= list.image.url %>" alt="">
+           <img src="<%= list.image.url %>" style="height: 200px; width: 200px;" alt="">
             <p>$<%= list.price %></p>
             <p><%= list.location %></p>
             <p><%= list.country %></p>
-            
+
+            <form action="http://localhost:8080/listings/<%= list._id %>">
+                <button>Show</button>
+            </form>
+            <form action="http://localhost:8080/listings/<%= list._id %>/edit">
+                <button>Edit</button>
+            </form>
         </div>
        <%  } %>
     </div>

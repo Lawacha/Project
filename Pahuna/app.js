@@ -25,6 +25,13 @@ app.get('/listings',async(req,res)=>{
     res.render('index.ejs',{listings})
 })
 
+//show route
+app.get('/listings/:id',async(req,res)=>{
+    let {id}=req.params
+    let showList=await Listing.findById(id)
+    res.render('show.ejs',{showList})
+})
+
 app.listen(port,()=>{
     console.log(`listening to port ${port}`)
 })
