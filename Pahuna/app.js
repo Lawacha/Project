@@ -2,11 +2,14 @@ const express=require('express')
 const mongoose=require('mongoose')
 const Listing=require('./models/listings')
 const path=require('path')
+const methodOverride = require('method-override')
 
 const app=express()
 
+app.use(methodOverride('_method'))
 app.set('view engine','ejs')
 app.set('views',path.join(__dirname,'views'))
+app.use(express.urlencoded({extended:true}))
 
 main()
 .then(res=>console.log('connected successfully'))
@@ -30,6 +33,29 @@ app.get('/listings/:id',async(req,res)=>{
     let {id}=req.params
     let showList=await Listing.findById(id)
     res.render('show.ejs',{showList})
+})
+
+//edit route
+app.get('/listings/:id/edit',async(req,res)=>{
+    let {id}=req.params
+    let showList=await Listing.findById(id)
+    res.render('edit.ejs',{showList})
+})
+
+app.put('/listings/:id',async(req,res)=>{
+    let {id}=req.params
+    let {title,description,image,price,location,country}=req.body
+    await Listing.findByIdAndUpdate(id,{
+        title:title,
+        description:description,
+        image:{
+            url:image
+        },
+        price:price,
+        location:location,
+        country:country
+    })
+    res.redirect('/listings')
 })
 
 app.listen(port,()=>{
