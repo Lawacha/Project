@@ -12,8 +12,9 @@ async function  main(){
 }
 
 async function initDb() {
-    let res=await Listing.insertMany(initData.data)
+   let res=await Listing.insertMany(initData.data)
     console.log(res)
+    
 }
 
 initDb()

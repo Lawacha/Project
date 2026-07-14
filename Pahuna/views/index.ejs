@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container" >
+      <%   for(let list of listings){ %>
+        <div>
+            <p><%= list.title %></p>
+            <p><%= list.description %></p>
+           <img src="<%= list.image.url %>" alt="">
+            <p>$<%= list.price %></p>
+            <p><%= list.location %></p>
+            <p><%= list.country %></p>
+            
+        </div>
+       <%  } %>
+    </div>
+</body>
+</html>
