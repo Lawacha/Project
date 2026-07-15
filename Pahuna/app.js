@@ -28,6 +28,27 @@ app.get('/listings',async(req,res)=>{
     res.render('index.ejs',{listings})
 })
 
+//create route
+app.get('/listings/new',(req,res)=>{
+    res.render('new.ejs')
+})
+
+app.post('/listings',async(req,res)=>{
+    let {title,description,image,price,location,country}=req.body
+    let newListing= new Listing({
+        title:title,
+        description:description,
+        image:{
+            url:image
+        },
+        price:price,
+        location:location,
+        country:country
+    })
+    await newListing.save()
+    res.redirect('/listings')
+})
+
 //show route
 app.get('/listings/:id',async(req,res)=>{
     let {id}=req.params
