@@ -3,13 +3,15 @@ const mongoose=require('mongoose')
 const Listing=require('./models/listings')
 const path=require('path')
 const methodOverride = require('method-override')
+const ejsMate=require('ejs-mate')
 
 const app=express()
 
 app.use(methodOverride('_method'))
 app.set('view engine','ejs')
-app.set('views',path.join(__dirname,'views'))
+app.set('views',path.join(__dirname,'views/listings'))
 app.use(express.urlencoded({extended:true}))
+app.engine('ejs',ejsMate)
 
 main()
 .then(res=>console.log('connected successfully'))
