@@ -4,6 +4,7 @@ const Listing=require('./models/listings')
 const path=require('path')
 const methodOverride = require('method-override')
 const ejsMate=require('ejs-mate')
+const ExpressError=require('./init/ExpressError')
 
 const app=express()
 
@@ -80,6 +81,12 @@ app.put('/listings/:id',async(req,res)=>{
         country:country
     })
     res.redirect('/listings')
+})
+
+//error handling
+app.use((err,req,res,next)=>{
+    let {status,message='err occured'}=err
+    res.send(message)
 })
 
 app.listen(port,()=>{
