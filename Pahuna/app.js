@@ -83,6 +83,13 @@ app.put('/listings/:id',async(req,res)=>{
     res.redirect('/listings')
 })
 
+//delete route
+app.delete('/listings/:id',async(req,res)=>{
+    let {id}=req.params
+    let list=await Listing.findByIdAndDelete(id)
+    res.redirect('/listings')
+})
+
 //error handling
 app.use((err,req,res,next)=>{
     let {status,message='err occured'}=err

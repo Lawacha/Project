@@ -1,21 +1,46 @@
 <% layout('../layouts/boilerplate') %>
-     <form action="http://localhost:8080/listings/<%= showList._id %>?_method=PUT" method="post">
-        <p>Title:</p>
-        <input type="text" name="title" value="<%= showList.title %>">
-        <p>Discription</p>
-        <input type="text" name="description" value="<%= showList.description %>">
-        <p>Image</p>
-        <input type="text" name="image" value="<%= showList.image.url %>">
-        <p>Price</p>
-        <input type="number" name="price" value="<%= showList.price %>">
-        <p>Location:</p>
-        <input type="text" name="location" value="<%= showList.location %>">
-        <p>Country:</p>
-        <input type="text" name="country" value="<%= showList.country %>"><br><br>
-    
-        <button>Edit</button>
+  <div class="row">
+   <div class="col-8 offset-2" >
+       <form action="http://localhost:8080/listings/<%= showList._id %>?_method=PUT" method="post">
+      <div class="mb-3">
+         <label for="title">Title</label>
+         <input type="text" name="title" value="<%= showList.title %>" class="form-control">
+      </div>
 
-     </form>
-</body>
-</body>
-</html>
+      <div class="mb-3">
+         <label for="description" class="form-label">Description</label>
+         <input type="text" name="description" class="form-control" value="<%= showList.description %>">
+      </div>
+
+      <div class="mb-3">
+         <label for="image" class="form-label">Image</label>
+         <input type="text" name="image" class="form-control" value="<%= showList.image.url %>">
+      </div>
+
+      <div class="row">
+         <div class="mb-3 col-md-4">
+         <label for="price" class="form-label">Price</label>
+         <input type="number" name="price" class="form-control" value="<%= showList.price %>">
+      </div>
+      <div class="mb-3 col-md-8">
+         <label for="country" class="form-label">Country:</label>
+         <input type="text" name="country" class="form-control" value="<%= showList.country %>">
+      </div>
+      </div>
+     
+
+      <div class="mb-3">
+         <label for="location" class="form-label">Location:</label>
+         <input type="text" name="location" class="form-control" value="<%= showList.location %>">
+      </div>
+
+      
+      <button class="btn btn-success">Edit</button>
+
+   </form>
+   </body>
+   </body>
+
+   </html>
+   </div>
+  </div>

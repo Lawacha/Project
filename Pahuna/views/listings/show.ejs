@@ -1,12 +1,26 @@
 <% layout('../layouts/boilerplate') %>
-    <h2>Show Route</h2>
-    <ul>
-        <img src="<%= showList.image.url %>" style="height: 200px;width: 200px;" alt="">
-        <li><%= showList.price %></li>
-        <li><%= showList.title %></li>
-        <li><%= showList.description %></li>
-       
-        <li><%= showList.location %></li>
-        <li><%= showList.country %></li>
-       
-    </ul>
+   <div class="row mt-2">
+    <div class="col-6 offset-3">
+         <h2>Show Route</h2>
+        </div>
+    <div class="card col-6 offset-3">
+        <img src="<%= showList.image.url %>" class="card-img-top show-img " alt="listing image">
+        <div class="card-body">
+            <p class="card-text"><b><%= showList.title %></b><br>
+                <%= showList.description %> <br>
+                <%= showList.price.toLocaleString('en-In') %> <br>
+                <%= showList.location %>
+                <%= showList.country %>
+            </p>
+        </div>
+    </div>
+
+    <div class="btns col-6 offset-3">
+        <a class="btn  btn-primary" href="/listings/<%= showList._id %>/edit">Edit</a>
+    <form action="/listings/<%= showList._id %>?_method=DELETE" method="post">
+        <button  class="btn btn-danger ">Delete</button>
+    </form>
+    </div>
+
+    </div>
+

@@ -1,6 +1,9 @@
 body{
     margin: 0;
     background-color:#EAEFEF;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 .container{
     padding-top: 0.7rem;
@@ -50,6 +53,7 @@ body{
     border: none;
     margin-bottom:2rem ;
     border-radius: 1rem;
+    padding: 0;
 }
 
 .card-img-top{
@@ -74,4 +78,14 @@ body{
 .card-img-overlay:hover{
     opacity: 0.2;
     background-color: white;
+}
+
+/* show page */
+.show-img{
+    height: 40vh;
+ 
+}
+
+.btns{
+    display: flex;
 }
