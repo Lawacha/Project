@@ -12,6 +12,7 @@ body{
    background-color:#BFC9D1 ;
    position: sticky;
     top: 0;
+    z-index: 1;
 }
 
 .nav-link{
@@ -35,3 +36,42 @@ body{
     justify-content: center;
 }
 
+.f-info-links a{
+    text-decoration: none;
+    color: black;
+    margin: 1rem;
+}
+
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+
+.card{
+    border: none;
+    margin-bottom:2rem ;
+    border-radius: 1rem;
+}
+
+.card-img-top{
+    border-radius: 1rem ;
+}
+
+.card-body{
+    padding: 0;
+}
+
+.card-text{
+    font-weight: 400;
+}
+
+.list-link{
+    text-decoration: none;
+}
+
+.card-img-overlay{
+    opacity: 0;
+}
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}

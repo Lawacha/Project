@@ -1,22 +1,22 @@
 <% layout('../layouts/boilerplate') %>
 
-    <div class="container" >
-      <%   for(let list of listings){ %>
-        <div>
-            <p><%= list.title %></p>
-            <p><%= list.description %></p>
-           <img src="<%= list.image.url %>" style="height: 200px; width: 200px;" alt="">
-            <p>$<%= list.price %></p>
-            <p><%= list.location %></p>
-            <p><%= list.country %></p>
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1" >
 
-            <form action="http://localhost:8080/listings/<%= list._id %>">
-                <button>Show</button>
-            </form>
-            <form action="http://localhost:8080/listings/<%= list._id %>/edit">
-                <button>Edit</button>
-            </form>
+    <% for(let list of listings){ %>
+       
+        <a href="/listings/<%= list._id %>" class="list-link">
+            <div class="card col" >
+            <img src="<%= list.image.url %>" class="card-img-top" style="height:20rem;" alt="listing_img">
+            <div class="card-img-overlay"></div>
+
+            <div class="card-body">
+                <h5 class="card-title"><b><%= list.title %></b></h5>
+                <p class="card-text"><%= list.description %></p>
+                <p class="card-text">$<%= list.price %></p>
+                <p><%= list.location %></p>
+                <p><%= list.country %></p>
+            </div>
         </div>
-       <%  } %>
-    </div>
-
+        </a>
+ <% } %>
+</div>
