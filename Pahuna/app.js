@@ -4,7 +4,7 @@ const Listing=require('./models/listings')
 const path=require('path')
 const methodOverride = require('method-override')
 const ejsMate=require('ejs-mate')
-const ExpressError=require('./init/ExpressError')
+const ExpressError=require('./utils/ExpressError')
 
 const app=express()
 
@@ -54,10 +54,19 @@ app.post('/listings',async(req,res)=>{
 })
 
 //show route
-app.get('/listings/:id',async(req,res)=>{
-    let {id}=req.params
+app.get('/listings/:id',async(req,res,next)=>{
+   try{
+     let {id}=req.params
     let showList=await Listing.findById(id)
+
+    if(!showList){
+        throw new ExpressError(404,'Listing not found')
+    }
     res.render('show.ejs',{showList})
+   }
+   catch(err){
+    next(err)
+   }
 })
 
 //edit route
@@ -90,10 +99,15 @@ app.delete('/listings/:id',async(req,res)=>{
     res.redirect('/listings')
 })
 
+//check route
+app.use((req,res,next)=>{
+    next(new ExpressError(404,'Page not found'))
+})
+
 //error handling
 app.use((err,req,res,next)=>{
-    let {status,message='err occured'}=err
-    res.send(message)
+    let {status=500,message='Something went wrong'}=err
+    res.status(status).render('error.ejs',{message})
 })
 
 app.listen(port,()=>{
