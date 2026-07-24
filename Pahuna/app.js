@@ -26,11 +26,17 @@ async function  main(){
 
 const port=8080
 
+const asyncWrap=(fn)=>{
+    return function(req,res,next){
+        fn(req,res,next).catch(err=>next(err))
+    }
+}
+
 //index route
-app.get('/listings',async(req,res)=>{
-    let listings=await Listing.find()
+app.get('/listings',asyncWrap(async(req,res)=>{
+      let listings=await Listing.findById('inva232lid')
     res.render('index.ejs',{listings})
-})
+}))
 
 //create route
 app.get('/listings/new',(req,res)=>{
