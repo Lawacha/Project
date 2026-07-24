@@ -34,7 +34,7 @@ const asyncWrap=(fn)=>{
 
 //index route
 app.get('/listings',asyncWrap(async(req,res)=>{
-      let listings=await Listing.findById('inva232lid')
+      let listings=await Listing.find()
     res.render('index.ejs',{listings})
 }))
 
@@ -43,7 +43,7 @@ app.get('/listings/new',(req,res)=>{
     res.render('new.ejs')
 })
 
-app.post('/listings',async(req,res)=>{
+app.post('/listings',asyncWrap(async(req,res)=>{
     let {title,description,image,price,location,country}=req.body
     let newListing= new Listing({
         title:title,
@@ -57,10 +57,10 @@ app.post('/listings',async(req,res)=>{
     })
     await newListing.save()
     res.redirect('/listings')
-})
+}))
 
 //show route
-app.get('/listings/:id',async(req,res,next)=>{
+app.get('/listings/:id',asyncWrap(async(req,res,next)=>{
    try{
      let {id}=req.params
     let showList=await Listing.findById(id)
@@ -73,7 +73,7 @@ app.get('/listings/:id',async(req,res,next)=>{
    catch(err){
     next(err)
    }
-})
+}))
 
 //edit route
 app.get('/listings/:id/edit',async(req,res)=>{
@@ -105,6 +105,26 @@ app.delete('/listings/:id',async(req,res)=>{
     res.redirect('/listings')
 })
 
+//mongoose error handling
+const handleValidation=(err)=>{
+    err.status=400
+    err.message='Validation Error: Please enter valid data'
+return err
+}
+
+const typeCast=(err)=>{
+    err.status=400
+    err.message='Typecast Error: Id format is incorrect'
+    return err
+}
+
+const typeError=(err)=>{
+    err.message='Type Error: Not Found'
+    err.status=404
+    return err
+}
+
+
 //check route
 app.use((req,res,next)=>{
     next(new ExpressError(404,'Page not found'))
@@ -112,8 +132,19 @@ app.use((req,res,next)=>{
 
 //error handling
 app.use((err,req,res,next)=>{
+
+    console.log(err.name)
+    if(err.name=='ValidationError'){
+        err=handleValidation(err)
+    }
+    else if(err.name=="CastError"){
+        err=typeCast(err)
+    }
+    else if(err.name=='TypeError'){
+        err=typeError(err)
+    }
     let {status=500,message='Something went wrong'}=err
-    res.status(status).render('error.ejs',{message})
+    res.status(status).render('error.ejs',{err})
 })
 
 app.listen(port,()=>{
