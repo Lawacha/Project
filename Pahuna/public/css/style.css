@@ -25,7 +25,6 @@ body{
 /* footer */
 .f-info{
     text-align: center;
-    height: 8rem;
     background-color:#BFC9D1 ;
     display: flex;
     flex-wrap: wrap;
@@ -54,10 +53,13 @@ body{
     margin-bottom:2rem ;
     border-radius: 1rem;
     padding: 0;
+    width: 4re;
 }
 
 .card-img-top{
     border-radius: 1rem ;
+    width: 100%;
+    object-fit: cover;
 }
 
 .card-body{

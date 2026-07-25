@@ -61,7 +61,7 @@ app.post('/listings',asyncWrap(async(req,res)=>{
 
 //show route
 app.get('/listings/:id',asyncWrap(async(req,res,next)=>{
-   try{
+
      let {id}=req.params
     let showList=await Listing.findById(id)
 
@@ -69,20 +69,16 @@ app.get('/listings/:id',asyncWrap(async(req,res,next)=>{
         throw new ExpressError(404,'Listing not found')
     }
     res.render('show.ejs',{showList})
-   }
-   catch(err){
-    next(err)
-   }
 }))
 
 //edit route
-app.get('/listings/:id/edit',async(req,res)=>{
+app.get('/listings/:id/edit',asyncWrap(async(req,res)=>{
     let {id}=req.params
     let showList=await Listing.findById(id)
     res.render('edit.ejs',{showList})
-})
+}))
 
-app.put('/listings/:id',async(req,res)=>{
+app.put('/listings/:id',asyncWrap(async(req,res)=>{
     let {id}=req.params
     let {title,description,image,price,location,country}=req.body
     await Listing.findByIdAndUpdate(id,{
@@ -96,14 +92,14 @@ app.put('/listings/:id',async(req,res)=>{
         country:country
     })
     res.redirect('/listings')
-})
+}))
 
 //delete route
-app.delete('/listings/:id',async(req,res)=>{
+app.delete('/listings/:id',asyncWrap(async(req,res)=>{
     let {id}=req.params
     let list=await Listing.findByIdAndDelete(id)
     res.redirect('/listings')
-})
+}))
 
 //mongoose error handling
 const handleValidation=(err)=>{
