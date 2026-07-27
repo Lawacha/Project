@@ -1,41 +1,50 @@
 <% layout('../layouts/boilerplate') %>
-   <div class="row">
-      <div class="col-8 offset-2">
-         <h2>Create a New Listing</h2>
+   <div class="row mt-2 mb-5 offset-3">
+      <h2>Create a New Listing</h2>
 
-         <form action="http://localhost:8080/listings" method="post" class="needs-validation"  novalidate>
+      <div class="col-8  mt-4">
+         <form action="http://localhost:8080/listings" method="post" class="needs-validation" novalidate>
 
             <div class="mb-3">
                <label for="title" class="form-label">Title:</label>
-               <input type="text" name="title" id="title" class="form-control" required>
-            </div>
+               <input type="text" placeholder="e.g. Cozy beachfront villa with ocean view" name="listing[title]" id="title"
+                  class="form-control" required>
+            <div class="valid-feedback">Title looks good!</div>
+               </div>
 
             <div class="mb-3">
                <label for="description" class="form-label">Description</label>
-               <textarea name="description" id="description" class="form-control" required></textarea>
+               <textarea name="listing[description]" placeholder="short and sweet description about your place..."
+                  id="description" class="form-control" required></textarea>
+                  <div class="valid-feedback">Description looks good!</div>
             </div>
 
             <div class="mb-3">
                <label for="image" class="form-label">Image</label>
-               <input type="text" name="image" id="image" class="form-control">
+               <input type="text"  placeholder="Enter url" name="listing[image][url]" id="image" class="form-control" value="https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dmlsbGF8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60">
             </div>
 
             <div class="row">
                <div class="mb-3 col-md-4">
                   <label for="price" class="form-label">Price</label>
-                     <input type="number" name="price" id="price" class="form-control" required>
+                  <input type="text" placeholder="Enter rate per night" name="listing[price]" id="price" class="form-control"
+                     required>
+                     <div class="invalid-feedback">Please enter valid price!</div>
                </div>
 
                <div class="mb-3 col-md-8">
                   <label for="country" class="form-label">Country:</label>
-                  <input type="text" name="country" id="country" class="form-control" required>
+                  <input type="text" placeholder="e.g. Nepal" name="listing[country]" id="country" class="form-control" required>
+                  <div class="invalid-feedback">Please enter correct country!</div>
                </div>
 
             </div>
 
             <div class="mb-3">
                <label for="location" class="form-label">Location:</label>
-               <input type="text" name="location" id="location" class="form-control" required>
+               <input type="text" placeholder="e.g. Thamel, Kathmandu" name="listing[location]" id="location"
+                  class="form-control" required>
+                  <div class="invalid-feedback">Please enter valid location!</div>
             </div>
 
             <button class="btn btn-success">Add</button>

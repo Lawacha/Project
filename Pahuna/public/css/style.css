@@ -53,7 +53,7 @@ body{
     margin-bottom:2rem ;
     border-radius: 1rem;
     padding: 0;
-    width: 4re;
+  
 }
 
 .card-img-top{
@@ -90,4 +90,7 @@ body{
 
 .btns{
     display: flex;
+    color: black;
+    font-weight: 900;
+    font-size: xx-large;
 }

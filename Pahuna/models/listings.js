@@ -7,7 +7,6 @@ const listSchema=new mongoose.Schema({
     },
     description:{
         type:String,
-        required:true
     },
     image:{
         filename:String,
@@ -26,7 +25,6 @@ const listSchema=new mongoose.Schema({
     },
     country:{
         type:String,
-        required:true
     }
 })
  
