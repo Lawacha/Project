@@ -6,6 +6,7 @@ const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate')
 const ExpressError = require('./utils/ExpressError')
 const asyncWrap=require('./utils/asyncWrap')
+const {listingSchema}=require('./schema.js')
 
 const app = express()
 
@@ -27,6 +28,16 @@ async function main() {
 
 const port = 8080
 
+const validateSchema=(req,res,next)=>{
+   let {error}= listingSchema.validate(req.body)
+   if(error){
+    throw new ExpressError(400,error)
+   }
+   else{
+    next()
+   }
+}
+
 //index route
 app.get('/listings', asyncWrap(async (req, res) => {
     let listings = await Listing.find()
@@ -38,25 +49,21 @@ app.get('/listings/new', (req, res) => {
     res.render('new.ejs')
 })
 
-app.post('/listings', asyncWrap(async (req, res) => {
-    if (!req.body.listing) {
-        throw new ExpressError(404, 'send valid data for listing ')
-    }
+app.post('/listings', validateSchema,asyncWrap(async (req, res) => {
     let newListing = new Listing(req.body.listing)
-    
+    console.log(newListing)
     await newListing.save()
     res.redirect('/listings')
 }))
 
 //show route
 app.get('/listings/:id', asyncWrap(async (req, res, next) => {
-
     let { id } = req.params
     let showList = await Listing.findById(id)
-
     if (!showList) {
         throw new ExpressError(404, 'Listing not found')
     }
+    console.log(showList)
     res.render('show.ejs', { showList })
 }))
 
@@ -67,24 +74,11 @@ app.get('/listings/:id/edit', asyncWrap(async (req, res) => {
     res.render('edit.ejs', { showList })
 }))
 
-app.put('/listings/:id', asyncWrap(async (req, res) => {
+app.put('/listings/:id',validateSchema, asyncWrap(async (req, res) => {
     let { id } = req.params
-
-     if (!req.body) {
-        throw new ExpressError(404, 'send valid data for listing ')
-    }
-    let { title, description, image, price, location, country } = req.body
-    await Listing.findByIdAndUpdate(id, {
-        title: title,
-        description: description,
-        image: {
-            url: image
-        },
-        price: price,
-        location: location,
-        country: country
-    })
-    res.redirect('/listings')
+    let result=await Listing.findByIdAndUpdate(id, req.body.listing)
+    console.log(result)
+    res.redirect(`/listings/${id}`)
 }))
 
 //delete route
@@ -93,6 +87,11 @@ app.delete('/listings/:id', asyncWrap(async (req, res) => {
     let list = await Listing.findByIdAndDelete(id)
     res.redirect('/listings')
 }))
+
+//check route
+app.use((req, res, next) => {
+    next(new ExpressError(404, 'Page not found'))
+})
 
 //mongoose error handling
 const handleValidation = (err) => {
@@ -108,16 +107,10 @@ const typeCast = (err) => {
 }
 
 const typeError = (err) => {
-    err.message = 'Type Error: Not Found'
+    err.message = err.message
     err.status = 404
     return err
 }
-
-
-//check route
-app.use((req, res, next) => {
-    next(new ExpressError(404, 'Page not found'))
-})
 
 //error handling
 app.use((err, req, res, next) => {

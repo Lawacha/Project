@@ -8,21 +8,21 @@
 
             <div class="mb-3">
                <label for="title">Title</label>
-               <input type="text" name="title" value="<%= showList.title %>" class="form-control" required>
+               <input type="text" name="listing[title]" value="<%= showList.title %>" class="form-control" required>
                <div class="invalid-feedback">Please enter valid title!</div>
                <div class="valid-feedback">Title looks good!</div>
             </div>
 
             <div class="mb-3">
                <label for="description" class="form-label">Description</label>
-               <input type="text" name="description" class="form-control" value="<%= showList.description %>" required>
+               <input type="text" name="listing[description]" class="form-control" value="<%= showList.description %>" required>
                <div class="invalid-feedback">Please enter valid description!</div>
                 <div class="valid-feedback">Description looks good!</div>
             </div>
 
             <div class="mb-3">
                <label for="image" class="form-label">Image</label>
-               <input type="text" name="image" class="form-control" value="<%= showList.image.url %>" required>
+               <input type="text" name="listing[image][url]" class="form-control" value="<%= showList.image.url %>" required>
                <div class="invalid-feedback">Please enter valid url!</div>
                 <div class="valid-feedback">Url is ok!</div>
             </div>
@@ -30,13 +30,13 @@
             <div class="row">
                <div class="mb-3 col-md-4">
                   <label for="price" class="form-label">Price</label>
-                  <input type="number" name="price" class="form-control" value="<%= showList.price %>" required>
+                  <input type="number" name="listing[price]" class="form-control" value="<%= showList.price %>" required>
                   <div class="invalid-feedback">Please enter valid number!</div>
                    <div class="valid-feedback">Price is ok!</div>
                </div>
                <div class="mb-3 col-md-8">
                   <label for="country" class="form-label">Country:</label>
-                  <input type="text" name="country" class="form-control" value="<%= showList.country %>" required>
+                  <input type="text" name="listing[country]" class="form-control" value="<%= showList.country %>" required>
                   <div class="invalid-feedback">Please enter valid country!</div>
                    <div class="valid-feedback">Country is ok!</div>
                </div>
@@ -45,7 +45,7 @@
 
             <div class="mb-3">
                <label for="location" class="form-label">Location:</label>
-               <input type="text" name="location" class="form-control" value="<%= showList.location %>" required>
+               <input type="text" name="listing[location]" class="form-control" value="<%= showList.location %>" required>
                <div class="invalid-feedback">Please enter valid location!</div>
                 <div class="valid-feedback">Title looks good!</div>
             </div>
