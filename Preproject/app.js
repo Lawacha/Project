@@ -68,7 +68,9 @@ app.delete('/posts/:id',async(req,res)=>{
 
 //error handling
 app.use((err,req,res,next)=>{
-    console.log(err.message)
+    let {status,message}=err
+    res(status).render(message)
+   
 })
 
 app.listen(port,()=>{
