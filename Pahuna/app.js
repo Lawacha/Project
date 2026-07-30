@@ -12,6 +12,7 @@ const app = express()
 
 app.use(methodOverride('_method'))
 app.set('view engine', 'ejs')
+app.use(express.json())
 app.set('views', path.join(__dirname, 'views/listings'))
 app.use(express.urlencoded({ extended: true }))
 app.engine('ejs', ejsMate)
@@ -51,7 +52,6 @@ app.get('/listings/new', (req, res) => {
 
 app.post('/listings', validateSchema,asyncWrap(async (req, res) => {
     let newListing = new Listing(req.body.listing)
-    console.log(newListing)
     await newListing.save()
     res.redirect('/listings')
 }))
@@ -63,7 +63,7 @@ app.get('/listings/:id', asyncWrap(async (req, res, next) => {
     if (!showList) {
         throw new ExpressError(404, 'Listing not found')
     }
-    console.log(showList)
+    
     res.render('show.ejs', { showList })
 }))
 
@@ -77,7 +77,6 @@ app.get('/listings/:id/edit', asyncWrap(async (req, res) => {
 app.put('/listings/:id',validateSchema, asyncWrap(async (req, res) => {
     let { id } = req.params
     let result=await Listing.findByIdAndUpdate(id, req.body.listing)
-    console.log(result)
     res.redirect(`/listings/${id}`)
 }))
 
@@ -115,7 +114,6 @@ const typeError = (err) => {
 //error handling
 app.use((err, req, res, next) => {
     let { status = 500, message = 'Something went wrong' } = err
-    console.log(err.name)
     if (err.name == 'ValidationError') {
         err = handleValidation(err)
     }
@@ -125,7 +123,7 @@ app.use((err, req, res, next) => {
     else if (err.name == 'TypeError') {
         err = typeError(err)
     }
-
+    console.log(err.message)
     res.status(status).render('error.ejs', { err })
 })
 
