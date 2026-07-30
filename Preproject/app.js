@@ -70,6 +70,7 @@ app.delete('/posts/:id',async(req,res)=>{
 app.use((err,req,res,next)=>{
     let {status,message}=err
     res(status).render(message)
+    console.log(status)
    
 })
 
