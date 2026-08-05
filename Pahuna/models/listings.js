@@ -26,7 +26,7 @@ const listSchema=new mongoose.Schema({
     country:{
         type:String,
     },
-    reviews:[{
+    review:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Review"
     }]

@@ -12,3 +12,12 @@ module.exports.listingSchema=joi.object({
         })
     }).required()
 })
+
+module.exports.reviewSchema=joi.object(
+    {
+        review:joi.object({
+            comment:joi.string().required(),
+            rating:joi.number().required()
+        }).required()
+    }
+)

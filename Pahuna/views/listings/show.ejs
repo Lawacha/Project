@@ -35,7 +35,7 @@
             <h4>Leave a review</h4>
             <div class="mb-2">
                 <label class="form-label" for="rating">Rating</label><br>
-                <input type="range"  class="form-range" id="rating" min="1" max="5"  name="reviews[ratings]"> <br>
+                <input type="range"  class="form-range" id="rating" min="1" max="5"  name="review[rating]"> <br>
             </div>
             <div class="mb-2">
                 <label for="comment" class="form-label">Comment</label> <br>
@@ -48,4 +48,13 @@
 
             </div>
         </form>
+    </div>
+
+    <div class="col-lg-4 col-sm-6 offset-4 mb-3">
+        <h2>Reviews</h2>
+        <ul>
+            <%for(review of showList.review){%>
+                <li><%= review.comment %>,&nbsp;&nbsp;<%= review.rating %> stars </li>
+                <% } %>
+        </ul>
     </div>

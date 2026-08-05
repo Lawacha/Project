@@ -6,7 +6,8 @@ const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate')
 const ExpressError = require('./utils/ExpressError')
 const asyncWrap=require('./utils/asyncWrap')
-const {listingSchema}=require('./schema.js')
+const {listingSchema, reviewSchema}=require('./schema.js')
+const Review=require('./models/Review.js')
 
 const app = express()
 
@@ -29,8 +30,20 @@ async function main() {
 
 const port = 8080
 
-const validateSchema=(req,res,next)=>{
+const validateListing=(req,res,next)=>{
    let {error}= listingSchema.validate(req.body)
+
+   if(error){
+    throw new ExpressError(400,error)
+   }
+   else{
+    next()
+   }
+}
+
+const validateReview=(req,res,next)=>{
+   let {error}= reviewSchema.validate(req.body)
+
    if(error){
     throw new ExpressError(400,error)
    }
@@ -50,7 +63,7 @@ app.get('/listings/new', (req, res) => {
     res.render('new.ejs')
 })
 
-app.post('/listings', validateSchema,asyncWrap(async (req, res) => {
+app.post('/listings', validateListing,asyncWrap(async (req, res) => {
     let newListing = new Listing(req.body.listing)
     await newListing.save()
     res.redirect('/listings')
@@ -59,7 +72,7 @@ app.post('/listings', validateSchema,asyncWrap(async (req, res) => {
 //show route
 app.get('/listings/:id', asyncWrap(async (req, res, next) => {
     let { id } = req.params
-    let showList = await Listing.findById(id)
+    let showList = await Listing.findById(id).populate('review')
     if (!showList) {
         throw new ExpressError(404, 'Listing not found')
     }
@@ -74,7 +87,7 @@ app.get('/listings/:id/edit', asyncWrap(async (req, res) => {
     res.render('edit.ejs', { showList })
 }))
 
-app.put('/listings/:id',validateSchema, asyncWrap(async (req, res) => {
+app.put('/listings/:id',validateListing, asyncWrap(async (req, res) => {
     let { id } = req.params
     let result=await Listing.findByIdAndUpdate(id, req.body.listing)
     res.redirect(`/listings/${id}`)
@@ -88,9 +101,15 @@ app.delete('/listings/:id', asyncWrap(async (req, res) => {
 }))
 
 //review route
-app.post('/listings/:id/reviews',async(req,res,next)=>{
-    console.log(req.body.reviews)
-})
+app.post('/listings/:id/reviews',validateReview,asyncWrap(async(req,res,next)=>{
+    let {id}=req.params
+    let listing=await Listing.findById(id).populate('review')
+    const newReview=new Review(req.body.review)
+    listing.review.push(newReview)
+    await newReview.save()
+    await listing.save()
+    res.redirect(`/listings/${id}`)
+}))
 
 //check route
 app.use((req, res, next) => {
