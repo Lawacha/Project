@@ -2,12 +2,16 @@ const { number, string } = require('joi')
 const mongoose=require('mongoose')
 
 const reviewSchema=new mongoose.Schema({
-    rating:{
+    ratings:{
         type:Number,
         min:1,
         max:5
     },
-    message:String
+    comment:String,
+    createdAt:{
+        type:Date,
+        default:Date.now()
+    }
 })
 
 const Review=mongoose.model('Review',reviewSchema)

@@ -87,6 +87,11 @@ app.delete('/listings/:id', asyncWrap(async (req, res) => {
     res.redirect('/listings')
 }))
 
+//review route
+app.post('/listings/:id/reviews',async(req,res,next)=>{
+    console.log(req.body.reviews)
+})
+
 //check route
 app.use((req, res, next) => {
     next(new ExpressError(404, 'Page not found'))
