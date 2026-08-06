@@ -30,6 +30,7 @@ async function main() {
 
 const port = 8080
 
+//joi
 const validateListing=(req,res,next)=>{
    let {error}= listingSchema.validate(req.body)
 
@@ -100,7 +101,7 @@ app.delete('/listings/:id', asyncWrap(async (req, res) => {
     res.redirect('/listings')
 }))
 
-//review route
+// review add route
 app.post('/listings/:id/reviews',validateReview,asyncWrap(async(req,res,next)=>{
     let {id}=req.params
     let listing=await Listing.findById(id).populate('review')
@@ -110,6 +111,14 @@ app.post('/listings/:id/reviews',validateReview,asyncWrap(async(req,res,next)=>{
     await listing.save()
     res.redirect(`/listings/${id}`)
 }))
+
+//review delete route
+app.delete('/listings/:id/reviews/:reviewId',async(req,res)=>{
+    let {id,reviewId}=req.params
+    await Listing.findByIdAndUpdate(id,{$pull:{review:reviewId}})
+    await Review.findByIdAndDelete(reviewId)
+    res.redirect(`/listings/${id}`)
+})
 
 //check route
 app.use((req, res, next) => {

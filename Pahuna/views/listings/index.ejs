@@ -5,13 +5,13 @@
     <% for(let list of listings){ %>
        
         <a href="/listings/<%= list._id %>" class="list-link">
-            <div class="card col" style="width: 24rem; ">
+            <div class="card listing-card col" style="width: 24rem; ">
             <img src="<%= list.image.url %>" class="card-img-top" style="height:20rem;" alt="listing_img">
             <div class="card-img-overlay"></div>
 
             <div class="card-body p-2">
                 <h5 class="card-title"><b><%= list.title %></b></h5>
-                <p class="card-text">Rs.<%= list.price %></p>
+                <p class="card-text">Rs. <%= list.price.toLocaleString('en-In') %></p>
                 <p><%= list.location %></p>
         
               
