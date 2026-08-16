@@ -8,6 +8,7 @@ const ExpressError = require('./utils/ExpressError')
 const asyncWrap=require('./utils/asyncWrap')
 const {listingSchema, reviewSchema}=require('./schema.js')
 const Review=require('./models/Review.js')
+const listings=require('./routes/listings.js')
 
 const app = express()
 
@@ -53,53 +54,7 @@ const validateReview=(req,res,next)=>{
    }
 }
 
-//index route
-app.get('/listings', asyncWrap(async (req, res) => {
-    let listings = await Listing.find()
-    res.render('index.ejs', { listings })
-}))
-
-//create route
-app.get('/listings/new', (req, res) => {
-    res.render('new.ejs')
-})
-
-app.post('/listings', validateListing,asyncWrap(async (req, res) => {
-    let newListing = new Listing(req.body.listing)
-    await newListing.save()
-    res.redirect('/listings')
-}))
-
-//show route
-app.get('/listings/:id', asyncWrap(async (req, res, next) => {
-    let { id } = req.params
-    let showList = await Listing.findById(id).populate('review')
-    if (!showList) {
-        throw new ExpressError(404, 'Listing not found')
-    }
-    
-    res.render('show.ejs', { showList })
-}))
-
-//edit route
-app.get('/listings/:id/edit', asyncWrap(async (req, res) => {
-    let { id } = req.params
-    let showList = await Listing.findById(id)
-    res.render('edit.ejs', { showList })
-}))
-
-app.put('/listings/:id',validateListing, asyncWrap(async (req, res) => {
-    let { id } = req.params
-    let result=await Listing.findByIdAndUpdate(id, req.body.listing)
-    res.redirect(`/listings/${id}`)
-}))
-
-//delete route
-app.delete('/listings/:id', asyncWrap(async (req, res) => {
-    let { id } = req.params
-    let list = await Listing.findByIdAndDelete(id)
-    res.redirect('/listings')
-}))
+app.use('/listings',listings)
 
 // review add route
 app.post('/listings/:id/reviews',validateReview,asyncWrap(async(req,res,next)=>{
