@@ -163,7 +163,3 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`listening to port ${port}`)
 })
-
-//express router
-//express routers are a way to organize you express applicaiton such that our primary app.js file doesnot become bloated
-//const router=express.Router() //creates new router object
