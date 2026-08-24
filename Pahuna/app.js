@@ -10,6 +10,7 @@ const {listingSchema, reviewSchema}=require('./schema.js')
 const Review=require('./models/Review.js')
 const listings=require('./routes/listings.js')
 const reviews=require('./routes/reviews.js')
+const session=require('express-session')
 
 const app = express()
 
@@ -20,6 +21,14 @@ app.set('views', path.join(__dirname, 'views/listings'))
 app.use(express.urlencoded({ extended: true }))
 app.engine('ejs', ejsMate)
 app.use(express.static(path.join(__dirname, "public")))
+
+const sessionOptions=({
+    secret:'secret',
+    resave:false,
+    saveUninitialized:true
+})
+
+app.use(session(sessionOptions))
 
 main()
     .then(res => console.log('connected successfully'))
