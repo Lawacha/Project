@@ -23,6 +23,7 @@ app.use(express.urlencoded({ extended: true }))
 app.engine('ejs', ejsMate)
 app.use(express.static(path.join(__dirname, "public")))
 
+//added expiry date 
 const sessionOptions=({
     secret:'secret',
     resave:false,
