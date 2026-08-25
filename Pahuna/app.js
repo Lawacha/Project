@@ -11,6 +11,7 @@ const Review=require('./models/Review.js')
 const listings=require('./routes/listings.js')
 const reviews=require('./routes/reviews.js')
 const session=require('express-session')
+const { date } = require('joi')
 
 const app = express()
 
@@ -25,7 +26,12 @@ app.use(express.static(path.join(__dirname, "public")))
 const sessionOptions=({
     secret:'secret',
     resave:false,
-    saveUninitialized:true
+    saveUninitialized:true,
+    cookie:{
+        expires:Date.now()+1000*60*60*24*3,
+        maxAge:1000*60*60*24*3,
+        httpOnly:true
+    }
 })
 
 app.use(session(sessionOptions))
