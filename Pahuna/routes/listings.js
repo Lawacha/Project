@@ -3,6 +3,7 @@ const router=express.Router()
 const Listing = require('../models/listings')
 const asyncWrap=require('../utils/asyncWrap')
 const ExpressError = require('../utils/ExpressError')
+const {listingSchema, reviewSchema}=require('../schema.js')
 
 const validateListing=(req,res,next)=>{
    let {error}= listingSchema.validate(req.body)
@@ -29,6 +30,7 @@ router.get('/new', (req, res) => {
 router.post('/', validateListing,asyncWrap(async (req, res) => {
     let newListing = new Listing(req.body.listing)
     await newListing.save()
+    req.flash('success','New listing created successfully')
     res.redirect('/listings')
 }))
 
