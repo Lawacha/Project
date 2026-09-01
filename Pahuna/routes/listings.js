@@ -39,7 +39,8 @@ router.get('/:id', asyncWrap(async (req, res, next) => {
     let { id } = req.params
     let showList = await Listing.findById(id).populate('review')
     if (!showList) {
-        throw new ExpressError(404, 'Listing not found')
+        req.flash('error','listing doesnot exist')
+       return res.redirect('/listings')
     }
     
     res.render('show.ejs', { showList })
@@ -49,6 +50,10 @@ router.get('/:id', asyncWrap(async (req, res, next) => {
 router.get('/:id/edit', asyncWrap(async (req, res) => {
     let { id } = req.params
     let showList = await Listing.findById(id)
+    if(!showList){
+        req.flash('error','listing doesnot exist')
+        return res.redirect('/listings')
+    }
     res.render('edit.ejs', { showList })
 }))
 
