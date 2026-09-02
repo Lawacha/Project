@@ -4,7 +4,7 @@ const Listing = require('../models/listings')
 const Review=require('../models/Review')
 const asyncWrap=require('../utils/asyncWrap')
 const ExpressError = require('../utils/ExpressError')
-const {listingSchema, reviewSchema}=require('../schema')
+const { reviewSchema}=require('../schema')
 
 const validateReview=(req,res,next)=>{
    let {error}= reviewSchema.validate(req.body)

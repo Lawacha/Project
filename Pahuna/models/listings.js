@@ -1,5 +1,4 @@
 const mongoose=require('mongoose')
-const { listingSchema } = require('../schema')
 const Review=require('./Review')
 
 const listSchema=new mongoose.Schema({
