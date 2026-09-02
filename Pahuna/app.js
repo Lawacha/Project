@@ -1,18 +1,16 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const Listing = require('./models/listings')
 const path = require('path')
 const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate')
 const ExpressError = require('./utils/ExpressError')
-const asyncWrap=require('./utils/asyncWrap')
-const {listingSchema, reviewSchema}=require('./schema.js')
-const Review=require('./models/Review.js')
 const listings=require('./routes/listings.js')
 const reviews=require('./routes/reviews.js')
 const session=require('express-session')
-const { date } = require('joi')
 const flash=require('connect-flash')
+const passport=require('passport')
+const LocalStrategy=require('passport-local')
+const User=require('./models/user.js')
 
 const app = express()
 
@@ -23,6 +21,17 @@ app.set('views', path.join(__dirname, 'views/listings'))
 app.use(express.urlencoded({ extended: true }))
 app.engine('ejs', ejsMate)
 app.use(express.static(path.join(__dirname, "public")))
+
+main()
+    .then(res => console.log('connected successfully'))
+    .catch(err => console.log(err));
+
+async function main() {
+    await mongoose.connect('mongodb://127.0.0.1:27017/pahuna');
+
+}
+
+const port = 8080
 
 //added expiry date 
 const sessionOptions=({
@@ -36,26 +45,36 @@ const sessionOptions=({
     }
 })
 
+//session and flash
 app.use(session(sessionOptions))
 app.use(flash());
 
-main()
-    .then(res => console.log('connected successfully'))
-    .catch(err => console.log(err));
+//passport
+passport.initialize()
+passport.session()
+passport.use(new LocalStrategy(User.authenticate()))
 
-async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/pahuna');
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 
-}
-
-const port = 8080
-
+//middleware for flash
 app.use((req,res,next)=>{
     res.locals.success=req.flash("success");
     res.locals.error=req.flash("error");
     next()
 })
 
+//demo user
+// app.get('/demouser',async(req,res)=>{
+//     let fakeUser=new User({
+//         email:'sup@gmail.com',
+//         username:'supp'
+//     })
+//     let regUser=await User.register(fakeUser,"password")
+//     res.send(regUser)
+// })
+
+//routing 
 app.use('/listings',listings)
 app.use('/listings/:id/reviews',reviews)
 
