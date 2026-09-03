@@ -2,12 +2,13 @@ const express=require('express')
 const router=express.Router()
 const User=require('../models/user')
 const asyncWrap = require('../utils/asyncWrap')
+const passport = require('passport')
 
-router.get('/',(req,res)=>{
+router.get('/signup',(req,res)=>{
  res.render('users/signup.ejs')
 })
 
-router.post('/',asyncWrap(async(req,res)=>{
+router.post('/signup',asyncWrap(async(req,res)=>{
     try{
         let {username,email,password}=req.body
     const newUser=new User({email,username})
@@ -21,5 +22,14 @@ router.post('/',asyncWrap(async(req,res)=>{
         res.redirect('/signup')
     }
 }) )
+
+router.get('/login',(req,res)=>{
+    res.render('users/login.ejs')
+})
+
+router.post('/login',passport.authenticate('local',{failureRedirect:'/login',failureFlash:true}), async(req,res)=>{
+    req.flash('success','Welcome back to Pahuna')
+    res.redirect('/listings')
+})
 
 module.exports=router

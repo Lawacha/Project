@@ -78,7 +78,8 @@ app.use((req,res,next)=>{
 //routing 
 app.use('/listings',listingRouter)
 app.use('/listings/:id/reviews',reviewRouter)
-app.use('/signup',userRouter)
+app.use('/',userRouter)
+
 
 //check route
 app.use((req, res, next) => {
