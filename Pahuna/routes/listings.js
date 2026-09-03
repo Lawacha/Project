@@ -19,12 +19,12 @@ const validateListing=(req,res,next)=>{
 //index route
 router.get('/', asyncWrap(async (req, res) => {
     let listings = await Listing.find()
-    res.render('index.ejs', { listings })
+    res.render('listings/index.ejs', { listings })
 }))
 
 //create route
 router.get('/new', (req, res) => {
-    res.render('new.ejs')
+    res.render('listings/new.ejs')
 })
 
 router.post('/', validateListing,asyncWrap(async (req, res) => {
@@ -43,7 +43,7 @@ router.get('/:id', asyncWrap(async (req, res, next) => {
        return res.redirect('/listings')
     }
     
-    res.render('show.ejs', { showList })
+    res.render('listings/show.ejs', { showList })
 }))
 
 //edit route
@@ -54,7 +54,7 @@ router.get('/:id/edit', asyncWrap(async (req, res) => {
         req.flash('error','listing doesnot exist')
         return res.redirect('/listings')
     }
-    res.render('edit.ejs', { showList })
+    res.render('listings/edit.ejs', { showList })
 }))
 
 router.put('/:id',validateListing, asyncWrap(async (req, res) => {

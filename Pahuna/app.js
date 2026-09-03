@@ -4,8 +4,9 @@ const path = require('path')
 const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate')
 const ExpressError = require('./utils/ExpressError')
-const listings=require('./routes/listings.js')
-const reviews=require('./routes/reviews.js')
+const listingRouter=require('./routes/listings.js')
+const reviewRouter=require('./routes/reviews.js')
+const userRouter=require('./routes/user.js')
 const session=require('express-session')
 const flash=require('connect-flash')
 const passport=require('passport')
@@ -17,7 +18,7 @@ const app = express()
 app.use(methodOverride('_method'))
 app.set('view engine', 'ejs')
 app.use(express.json())
-app.set('views', path.join(__dirname, 'views/listings'))
+app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({ extended: true }))
 app.engine('ejs', ejsMate)
 app.use(express.static(path.join(__dirname, "public")))
@@ -75,8 +76,9 @@ app.use((req,res,next)=>{
 // })
 
 //routing 
-app.use('/listings',listings)
-app.use('/listings/:id/reviews',reviews)
+app.use('/listings',listingRouter)
+app.use('/listings/:id/reviews',reviewRouter)
+app.use('/signup',userRouter)
 
 //check route
 app.use((req, res, next) => {
@@ -115,7 +117,7 @@ app.use((err, req, res, next) => {
         err = typeError(err)
     }
     console.log(err.message)
-    res.status(status).render('error.ejs', { err })
+    res.status(status).render('listings/error.ejs', { err })
 })
 
 app.listen(port, () => {
