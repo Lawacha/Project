@@ -51,8 +51,8 @@ app.use(session(sessionOptions))
 app.use(flash());
 
 //passport
-passport.initialize()
-passport.session()
+app.use(passport.initialize())
+app.use(passport.session())
 passport.use(new LocalStrategy(User.authenticate()))
 
 passport.serializeUser(User.serializeUser())
@@ -64,16 +64,6 @@ app.use((req,res,next)=>{
     res.locals.error=req.flash("error");
     next()
 })
-
-//demo user
-// app.get('/demouser',async(req,res)=>{
-//     let fakeUser=new User({
-//         email:'sup@gmail.com',
-//         username:'supp'
-//     })
-//     let regUser=await User.register(fakeUser,"password")
-//     res.send(regUser)
-// })
 
 //routing 
 app.use('/listings',listingRouter)
