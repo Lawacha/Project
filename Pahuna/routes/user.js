@@ -8,7 +8,7 @@ router.get('/signup', (req, res) => {
     res.render('users/signup.ejs')
 })
 
-router.post('/signup', asyncWrap(async (req, res) => {
+router.post('/signup', asyncWrap(async (req, res,next) => {
     try {
         let { username, email, password } = req.body
         const newUser = new User({ email, username })

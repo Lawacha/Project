@@ -24,7 +24,7 @@ app.engine('ejs', ejsMate)
 app.use(express.static(path.join(__dirname, "public")))
 
 main()
-    .then(res => console.log('connected successfully'))
+    .then(() => console.log('connected successfully'))
     .catch(err => console.log(err));
 
 async function main() {
