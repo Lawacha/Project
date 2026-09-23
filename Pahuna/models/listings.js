@@ -30,7 +30,11 @@ const listSchema=new mongoose.Schema({
     review:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Review"
-    }]
+    }],
+    owner:{
+        type:Schema.types.ObjectId,
+        ref:'User'
+    }
 })
 
 listSchema.post('findOneAndDelete',async(listing)=>{
