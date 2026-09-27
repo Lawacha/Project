@@ -6,6 +6,7 @@
         <div class="card listing-card col-lg-5 col-sm-7 offset-3">
             <img src="<%= showList.image.url %>" class="card-img-top show-img " alt="listing image">
             <div class="card-body p-3">
+                <i><p>Owned by <%=showList.owner.username%> </p></i>
                 <p class="card-text">
                     <%= showList.description %> <br>
                         Rs. <%= showList.price.toLocaleString('en-In') %> <br>
@@ -15,13 +16,15 @@
             </div>
         </div>
 
-        <div class="btns col-6 offset-3">
+    <% if(currentUser && currentUser._id.equals(showList.owner._id)) {%>  
+          <div class="btns col-6 offset-3">
             <a class="btn  btn-outline-primary alert" href="/listings/<%= showList._id %>/edit">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;
             <form action="/listings/<%= showList._id %>?_method=DELETE" method="post">
                 <button onclick="alert('Deleted listing <%=showList.title%>')"
                     class="btn btn-outline-danger alert ">Delete</button>
             </form>
         </div>
+        <% }%>
 
     </div>
 

@@ -30,6 +30,7 @@ router.get('/new',isLoggedIn, (req, res) => {
 
 router.post('/', validateListing,asyncWrap(async (req, res) => {
     let newListing = new Listing(req.body.listing)
+    newListing.owner=req.user._id
     await newListing.save()
     req.flash('success','New listing created successfully')
     res.redirect('/listings')
@@ -38,12 +39,11 @@ router.post('/', validateListing,asyncWrap(async (req, res) => {
 //show route
 router.get('/:id', asyncWrap(async (req, res, next) => {
     let { id } = req.params
-    let showList = await Listing.findById(id).populate('review')
+    let showList = await Listing.findById(id).populate('review').populate('owner')
     if (!showList) {
         req.flash('error','listing doesnot exist')
        return res.redirect('/listings')
     }
-    
     res.render('listings/show.ejs', { showList })
 }))
 

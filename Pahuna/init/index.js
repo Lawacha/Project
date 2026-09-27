@@ -12,7 +12,9 @@ async function  main(){
 }
 
 async function initDb() {
-   let res=await Listing.insertMany(initData.data)
+    await Listing.deleteMany({})
+    let datawithowner=initData.data.map((obj)=>({...obj,owner:"6aafbf612a70f54b55fdb7c4"}))
+   let res=await Listing.insertMany(datawithowner)
     console.log(res)
     
 }
