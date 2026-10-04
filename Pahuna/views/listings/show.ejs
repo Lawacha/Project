@@ -16,15 +16,14 @@
             </div>
         </div>
 
-    <% if(currentUser && currentUser._id.equals(showList.owner._id)) {%>  
-          <div class="btns col-6 offset-3">
+   <div class="btns col-6 offset-3">
             <a class="btn  btn-outline-primary alert" href="/listings/<%= showList._id %>/edit">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;
             <form action="/listings/<%= showList._id %>?_method=DELETE" method="post">
                 <button onclick="alert('Deleted listing <%=showList.title%>')"
                     class="btn btn-outline-danger alert ">Delete</button>
             </form>
         </div>
-        <% }%>
+        
 
     </div>
 
