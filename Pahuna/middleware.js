@@ -8,7 +8,7 @@ module.exports.isLoggedIn=(req,res,next)=>{
     if(!req.isAuthenticated()){
         //redirect url
     req.session.redirectUrl=req.originalUrl
-        req.flash('error','you must logged in to create changes')
+        req.flash('error','You must be logged in to make changes')
         return res.redirect('/login')
     }
     next()
@@ -26,7 +26,7 @@ module.exports.isOwner=async(req,res,next)=>{
       if (!listing)
          { req.flash("error", "Listing not found"); 
             return res.redirect("/listings"); }
-     if (!res.locals.currentUser||res.locals.currentUser._id.equals(listing.owner._id)){
+     if (!res.locals.currentUser||!res.locals.currentUser._id.equals(listing.owner._id)){
         req.flash('error','You are not owner of this listing')
        return  res.redirect(`/listings/${id}`)
     }

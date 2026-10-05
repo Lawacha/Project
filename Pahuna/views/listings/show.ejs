@@ -64,10 +64,11 @@
                     <h5 class="card-title"><%=review.author.username %></h5>
                     <p class="card-text"> <%= review.comment %></p>
                     <p class="card-text"><%= review.rating %> stars</p>
-
+                    <%if(currentUser){%>
                     <form action="/listings/<%= showList._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
                         <button>Delete</button>
                     </form>
+                    <%}%>
                 </div>
             </div>
             <% } %>
