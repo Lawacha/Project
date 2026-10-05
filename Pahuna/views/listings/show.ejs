@@ -16,14 +16,15 @@
             </div>
         </div>
 
-   <div class="btns col-6 offset-3">
+    <% if(currentUser && currentUser._id.equals(showList.owner._id)) {%>  
+          <div class="btns col-6 offset-3">
             <a class="btn  btn-outline-primary alert" href="/listings/<%= showList._id %>/edit">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;
             <form action="/listings/<%= showList._id %>?_method=DELETE" method="post">
                 <button onclick="alert('Deleted listing <%=showList.title%>')"
                     class="btn btn-outline-danger alert ">Delete</button>
             </form>
         </div>
-        
+        <% }%>
 
     </div>
 
@@ -31,8 +32,10 @@
 
 
     <!-- Reviews form -->
-    <div class="col-lg-5 col-sm-6 offset-3 mb-3">
+    <%if(currentUser){ %>
+    <div class="col-8 col-sm-6 offset-3 mb-3">
         <form action="/listings/<%= showList.id %>/reviews" method="post" novalidate class="needs-validation">
+            
             <h4>Leave a review</h4>
             <div class="mb-3 mt-3">
                 <label class="form-label" for="rating">Rating</label><br>
@@ -46,18 +49,19 @@
                 <button class="btn btn-outline-dark">Submit</button>
         </form>
     </div>
-
     <hr>
+   <% }%>
 
     <!-- Reviews -->
-    <div class="col-lg-6 col-sm-7 offset-3 mb-3">
+    <div class="col-8 offset-3 mb-3">
         <h4 >Reviews</h4>
+
         <div class="row ">
             
         <%for(review of showList.review){%>
             <div class="card col-5 mb-2 ms-2">
                 <div class="card-body">
-                    <h5 class="card-title">Kevin De Ryne</h5>
+                    <h5 class="card-title"><%=review.author.username %></h5>
                     <p class="card-text"> <%= review.comment %></p>
                     <p class="card-text"><%= review.rating %> stars</p>
 
@@ -68,5 +72,6 @@
             </div>
             <% } %>
         </div>
+       
 
     </div>
