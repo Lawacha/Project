@@ -1,27 +1,23 @@
-const express=require('express')
-const router=express.Router()
-const Listing = require('../models/listings')
-const asyncWrap=require('../utils/asyncWrap')
-const {isLoggedIn, isOwner,validateListing}=require('../middleware.js')
-const listingController=require('../Controllers/Listing.js')
+const express = require('express')
+const router = express.Router()
+const asyncWrap = require('../utils/asyncWrap')
+const { isLoggedIn, isOwner, validateListing } = require('../middleware.js')
+const listingController = require('../Controllers/Listing.js')
 
-//index route
-router.get('/', asyncWrap(listingController.index))
+router.route('/')
+    .get(asyncWrap(listingController.index))
+    .post(validateListing, asyncWrap(listingController.createListing));
+
 
 //create route
-router.get('/new',isLoggedIn,listingController.createForm )
+router.get('/new', isLoggedIn, listingController.createForm)
 
-router.post('/', validateListing,asyncWrap(listingController.createListing))
-
-//show route
-router.get('/:id', asyncWrap(listingController.showListing))
+router.route('/:id')
+    .get(asyncWrap(listingController.showListing))
+    .put(validateListing, isOwner, asyncWrap(listingController.editListing))
+    .delete(isLoggedIn, isOwner, asyncWrap(listingController.destroyListing))
 
 //edit route
-router.get('/:id/edit',isLoggedIn, asyncWrap(listingController.editForm))
+router.get('/:id/edit', isLoggedIn, asyncWrap(listingController.editForm))
 
-router.put('/:id',validateListing,isOwner, asyncWrap(listingController.editListing))
-
-//delete route
-router.delete('/:id',isLoggedIn,isOwner, asyncWrap(listingController.destroyListing))
-
-module.exports=router
+module.exports = router
