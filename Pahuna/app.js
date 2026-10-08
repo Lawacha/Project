@@ -4,14 +4,14 @@ const path = require('path')
 const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate')
 const ExpressError = require('./utils/ExpressError')
-const listingRouter=require('./routes/listings.js')
-const reviewRouter=require('./routes/reviews.js')
-const userRouter=require('./routes/user.js')
-const session=require('express-session')
-const flash=require('connect-flash')
-const passport=require('passport')
-const LocalStrategy=require('passport-local')
-const User=require('./models/user.js')
+const listingRouter = require('./routes/listings.js')
+const reviewRouter = require('./routes/reviews.js')
+const userRouter = require('./routes/user.js')
+const session = require('express-session')
+const flash = require('connect-flash')
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
+const User = require('./models/user.js')
 
 const app = express()
 
@@ -35,14 +35,14 @@ async function main() {
 const port = 8080
 
 //added expiry date 
-const sessionOptions=({
-    secret:'secret',
-    resave:false,
-    saveUninitialized:true,
-    cookie:{
-        expires:Date.now()+1000*60*60*24*3,
-        maxAge:1000*60*60*24*3,
-        httpOnly:true
+const sessionOptions = ({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 3,
+        maxAge: 1000 * 60 * 60 * 24 * 3,
+        httpOnly: true
     }
 })
 
@@ -59,17 +59,17 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 //middleware for flash
-app.use((req,res,next)=>{
-    res.locals.success=req.flash("success");
-    res.locals.error=req.flash("error");
-    res.locals.currentUser=req.user;
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    res.locals.currentUser = req.user;
     next()
 })
 
 //routing 
-app.use('/listings',listingRouter)
-app.use('/listings/:id/reviews',reviewRouter)
-app.use('/',userRouter)
+app.use('/listings', listingRouter)
+app.use('/listings/:id/reviews', reviewRouter)
+app.use('/', userRouter)
 
 
 //check route

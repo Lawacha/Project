@@ -1,20 +1,20 @@
-const User=require('../models/user.js')
+const User = require('../models/user.js')
 
-module.exports.renderSignupForm=(req, res) => {
+module.exports.renderSignupForm = (req, res) => {
     res.render('users/signup.ejs')
 }
 
-module.exports.addUser= async (req, res,next) => {
+module.exports.addUser = async (req, res, next) => {
     try {
         let { username, email, password } = req.body
         const newUser = new User({ email, username })
         const registeredUser = await User.register(newUser, password)
-        req.login(registeredUser,(err)=>{
-            if(err){
+        req.login(registeredUser, (err) => {
+            if (err) {
                 return next(err)
             }
-            else{
-                req.flash('success',"Welcome to Pahuna")
+            else {
+                req.flash('success', "Welcome to Pahuna")
                 res.redirect('/listings')
             }
         })
@@ -25,17 +25,17 @@ module.exports.addUser= async (req, res,next) => {
     }
 }
 
-module.exports.renderLoginForm= (req, res) => {
+module.exports.renderLoginForm = (req, res) => {
     res.render('users/login.ejs')
 }
 
-module.exports.loginUser=async (req, res) => {
+module.exports.loginUser = async (req, res) => {
     req.flash('success', 'Welcome back to Pahuna')
-   
+
     res.redirect(res.locals.redirectUrl || '/listings')
 }
 
-module.exports.logoutUser=(req, res, next) => {
+module.exports.logoutUser = (req, res, next) => {
     req.logout((err) => {
         if (err) {
             next(err)
